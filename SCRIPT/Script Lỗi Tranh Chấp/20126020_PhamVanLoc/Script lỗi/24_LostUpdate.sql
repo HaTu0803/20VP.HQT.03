@@ -1,0 +1,103 @@
+﻿
+--24) LOI
+
+DROP PROC IF EXISTS EX_24_READ_SOLUONG_LOST_UPDATE
+go
+
+CREATE PROC EX_24_READ_SOLUONG_LOST_UPDATE
+AS
+BEGIN
+    BEGIN TRAN 
+        BEGIN TRY 
+                SELECT * FROM  THUCDON_DU 
+
+                WAITFOR DELAY '00:00:12'
+
+                SELECT * FROM  THUCDON_DU 
+        END TRY 
+
+        BEGIN CATCH 
+            ROLLBACK TRAN
+            RETURN 0
+        END CATCH
+    COMMIT TRAN
+    RETURN 1
+END 
+GO
+DROP PROC IF EXISTS EX_24_UPDATE_SOLUONGA_LOST_UPDATE 
+GO
+CREATE PROC EX_24_UPDATE_SOLUONGA_LOST_UPDATE 
+   @MATD_DU      char(6),
+   @MADT       char(6),
+   @SL  FLOAT
+AS
+BEGIN
+    BEGIN TRAN
+    BEGIN TRY
+
+        IF EXISTS (SELECT * FROM THUCDON_DU WHERE SL < @SL)
+                BEGIN
+                        PRINT N'LỖI'
+                    ROLLBACK TRAN
+                    RETURN 1
+                END
+        
+        IF NOT EXISTS (SELECT * FROM THUCDON_DU WHERE MATD_DU = @MATD_DU AND MADT = @MADT)
+        BEGIN
+            ROLLBACK TRAN
+            RETURN 1
+        END
+
+        SELECT * FROM THUCDON_DU   
+        WAITFOR DELAY '00:00:10'
+        UPDATE THUCDON_DU SET SL = @SL - 1 WHERE MATD_DU = @MATD_DU AND MADT = @MADT
+        SELECT * FROM THUCDON_DU 
+    END TRY
+
+    BEGIN CATCH
+        ROLLBACK TRAN 
+        RETURN 0
+    END CATCH
+
+    COMMIT TRAN
+    RETURN 1
+END
+
+
+GO
+DROP PROC IF EXISTS EX_24_UPDATE_SOLUONGB_LOST_UPDATE  
+GO
+CREATE PROC EX_24_UPDATE_SOLUONGB_LOST_UPDATE 
+   @MATD_DU      char(6),
+   @MADT       char(6),
+   @SL  FLOAT
+AS
+BEGIN
+    BEGIN TRAN
+    BEGIN TRY
+        IF EXISTS (SELECT * FROM THUCDON_DU WHERE SL < @SL)
+            BEGIN
+                PRINT N'LỖI'
+                ROLLBACK TRAN
+                RETURN 1
+            END
+            
+        IF NOT EXISTS (SELECT * FROM THUCDON_DU WHERE MATD_DU = @MATD_DU AND MADT = @MADT)
+        BEGIN
+            ROLLBACK TRAN
+            RETURN 1
+        END
+        SELECT * FROM THUCDON_DU   
+        UPDATE THUCDON_DU SET SL = @SL - 2 WHERE MATD_DU = @MATD_DU AND MADT = @MADT
+        SELECT * FROM THUCDON_DU 
+    END TRY
+
+    BEGIN CATCH
+        ROLLBACK TRAN 
+        RETURN 0
+    END CATCH
+
+    COMMIT TRAN
+    RETURN 1
+END
+

@@ -1,0 +1,107 @@
+﻿
+--22) FIX
+DROP PROC IF EXISTS EX_22_READ_DONDK_LOST_UPDATE_FIX
+go
+
+CREATE PROC EX_22_READ_DONDK_LOST_UPDATE_FIX
+AS
+BEGIN
+    BEGIN TRAN 
+        BEGIN TRY 
+                SELECT * FROM  DON_DK 
+
+                WAITFOR DELAY '00:00:05'
+
+                SELECT * FROM  DON_DK 
+        END TRY 
+
+        BEGIN CATCH 
+            ROLLBACK TRAN
+            RETURN 0
+        END CATCH
+    COMMIT TRAN
+    RETURN 1
+END 
+GO
+DROP PROC IF EXISTS EX_22_UPDATE_DONDKA_LOST_UPDATE_FIX 
+GO
+CREATE PROC EX_22_UPDATE_DONDKA_LOST_UPDATE_FIX 
+   @MADDK      char(6),
+   @MANV       char(6)
+AS
+BEGIN
+SET TRANSACTION ISOLATION LEVEL REPEATABLE READ
+    BEGIN TRAN
+    BEGIN TRY
+        IF NOT EXISTS (SELECT * FROM NHANVIEN WHERE MANV = @MANV)
+        BEGIN
+			RAISERROR('An error occurred in the sample procedure.1', 16, 1);
+            ROLLBACK TRAN
+            RETURN 1
+        END
+
+
+        IF NOT EXISTS (SELECT * FROM DON_DK WHERE MADDK = @MADDK AND MANV IS NULL)
+        BEGIN
+            RAISERROR('An error occurred in the sample procedure.1', 16, 1);
+
+			ROLLBACK TRAN
+            RETURN 1
+        END
+
+        SELECT * FROM DON_DK  WHERE MADDK = @MADDK 
+        WAITFOR DELAY '00:00:10'
+        UPDATE DON_DK SET MANV = @MANV WHERE MADDK = @MADDK 
+        SELECT * FROM DON_DK WHERE MADDK = @MADDK 
+    END TRY
+
+    BEGIN CATCH
+        ROLLBACK TRAN 
+        RETURN 0
+    END CATCH
+
+    COMMIT TRAN
+    RETURN 1
+END
+
+
+GO
+DROP PROC IF EXISTS EX_22_UPDATE_DONDKB_LOST_UPDATE_FIX  
+GO
+CREATE PROC EX_22_UPDATE_DONDKB_LOST_UPDATE_FIX 
+    @MADDK      char(6),
+   @MANV       char(6)
+AS
+BEGIN
+SET TRANSACTION ISOLATION LEVEL REPEATABLE READ
+    BEGIN TRAN
+    BEGIN TRY
+        IF NOT EXISTS (SELECT * FROM NHANVIEN WHERE MANV = @MANV)
+        BEGIN
+		   RAISERROR('An error occurred in the sample procedure.2', 16, 1);
+            ROLLBACK TRAN
+            RETURN 1
+        END
+
+
+        IF NOT EXISTS (SELECT * FROM DON_DK WHERE MADDK = @MADDK AND MANV IS NULL)
+        BEGIN
+		    RAISERROR('An error occurred in the sample procedure.2', 16, 1);
+            ROLLBACK TRAN
+            RETURN 1
+        END
+
+        SELECT * FROM DON_DK WHERE MADDK = @MADDK
+
+        UPDATE DON_DK SET  MANV = @MANV WHERE  MADDK = @MADDK
+        SELECT * FROM DON_DK WHERE MADDK = @MADDK
+    END TRY
+
+    BEGIN CATCH
+        ROLLBACK TRAN 
+        RETURN 0
+    END CATCH
+
+    COMMIT TRAN
+    RETURN 1
+END

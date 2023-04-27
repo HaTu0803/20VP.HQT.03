@@ -1,0 +1,108 @@
+﻿
+--21) LOI
+DROP PROC IF EXISTS EX_21_READ_DONHANG_LOST_UPDATE
+go
+
+CREATE PROC EX_21_READ_DONHANG_LOST_UPDATE
+AS
+BEGIN
+    BEGIN TRAN 
+        BEGIN TRY 
+                SELECT * FROM  DONHANG 
+
+                WAITFOR DELAY '00:00:05'
+
+                SELECT * FROM  DONHANG 
+        END TRY 
+
+        BEGIN CATCH 
+            ROLLBACK TRAN
+            RETURN 0
+        END CATCH
+    COMMIT TRAN
+    RETURN 1
+END 
+
+
+GO
+DROP PROC IF EXISTS EX_21_UPDATE_DONHANG_TXA_LOST_UPDATE 
+GO
+CREATE PROC EX_21_UPDATE_DONHANG_TXA_LOST_UPDATE 
+   @MADH       char(6),
+   @MATX       char(6),
+   @TINHTRANG  nvarchar(30)   
+AS
+BEGIN
+    BEGIN TRAN
+    BEGIN TRY
+        IF NOT EXISTS (SELECT * FROM TAIXE WHERE MATX = @MATX)
+        BEGIN
+			RAISERROR('An error occurred in the sample procedure.1', 16, 1);
+            ROLLBACK TRAN
+            RETURN 1
+        END
+
+
+        IF NOT EXISTS (SELECT * FROM DONHANG WHERE MADH = @MADH AND (TINHTRANG  = N'Đã xác nhận' OR TINHTRANG IS NULL))
+        BEGIN
+			RAISERROR('An error occurred in the sample procedure.2', 16, 1);
+            ROLLBACK TRAN
+            RETURN 1
+        END
+
+        SELECT * FROM DONHANG  WHERE MADH = @MADH 
+        WAITFOR DELAY '00:00:10'
+        UPDATE DONHANG SET MATX = @MATX, TINHTRANG = @TINHTRANG WHERE MADH = @MADH
+        SELECT * FROM DONHANG WHERE MADH = @MADH
+
+    END TRY
+
+    BEGIN CATCH
+        ROLLBACK TRAN 
+        RETURN 0
+    END CATCH
+
+    COMMIT TRAN
+    RETURN 1
+END
+
+
+GO
+DROP PROC IF EXISTS EX_21_UPDATE_DONHANG_TXB_LOST_UPDATE 
+GO
+CREATE PROC EX_21_UPDATE_DONHANG_TXB_LOST_UPDATE 
+   @MADH       char(6),
+   @MATX       char(6),
+   @TINHTRANG  nvarchar(30)   
+AS
+BEGIN
+    BEGIN TRAN
+    BEGIN TRY
+        IF NOT EXISTS (SELECT * FROM TAIXE WHERE MATX = @MATX)
+        BEGIN
+			RAISERROR('An error occurred in the sample procedure.1', 16, 1);
+            ROLLBACK TRAN
+            RETURN 0
+        END
+
+        IF NOT EXISTS (SELECT * FROM DONHANG WHERE MADH = @MADH AND (TINHTRANG  = N'Đã xác nhận' OR TINHTRANG IS NULL))
+        BEGIN
+			RAISERROR('An error occurred in the sample procedure.2', 16, 1);
+            ROLLBACK TRAN
+            RETURN 0
+        END
+
+        SELECT * FROM DONHANG  WHERE MADH = @MADH 
+
+        UPDATE DONHANG SET MATX = @MATX, TINHTRANG = @TINHTRANG WHERE MADH = @MADH
+        SELECT * FROM DONHANG WHERE MADH = @MADH
+    END TRY
+
+    BEGIN CATCH
+        ROLLBACK TRAN 
+        RETURN 0
+    END CATCH
+
+    COMMIT TRAN
+    RETURN 1
+END
