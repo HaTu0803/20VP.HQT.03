@@ -1,0 +1,165 @@
+<style>
+   
+    .list {
+        position: absolute;
+        margin-top: 60px;
+        right: 160px; }
+
+    h1 {
+        padding-top: 100px; }
+    .btn-search{
+        background-color: #ffdad7;
+        margin-left: 20px;
+
+    }
+    #text{
+        margin-right: 20px;
+        margin-top: 10px;
+    }
+    #map{
+        padding-right: 1000px;
+        padding-top: 60px;
+    }
+    #group{
+        padding-top: 60px;
+        padding-left: 350px;
+
+    }
+
+    h4 {
+        padding-top: 20px;
+        padding-right: 200px;
+    }
+    .number p, .number input {
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .number input {
+        margin-right: 10px; /* khoảng cách giữa input và p */
+    }
+    .number{
+        display: block;
+        margin: 250px auto;
+        text-align: center;
+
+    }
+    .center-button {
+        display: block;
+        margin: -240px auto;
+        text-align: center;
+    }
+    .payment{
+        display: block;
+        padding-left: 38em;
+        padding-top: 3em;
+        margin-bottom: 20px;
+
+    }
+
+    .payment-image {
+        margin-right: 30px;
+    }
+    .payment-radio{
+        margin-right: 0;
+
+    }
+    .pass div, .pass button {
+        display: inline-block;
+    }
+    .pass {
+
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+    .pass input {
+        margin-right: 70px;
+        margin-left: 70px;
+
+    }
+</style>
+
+<head>
+    <h1 class = "text-center">ĐÁNH GIÁ ĐƠN HÀNG</h1>
+    {{!-- đánh giá bằng sao --}}
+    {{!-- <script>
+      const ratings = document.getElementById('rating1'); const rating1 = new CDB.Rating(ratings);
+      rating1.getRating;
+      </script> --}}
+</head>
+ <img class="payment-image" src="/public/img/image6.png" alt="Ảnh thanh toán" style="display:flex;justify-content: center;  margin: auto;"/>
+
+{{!-- <div class="height-100 container d-flex align-items-center justify-content-center "> --}}
+
+    <div class="container">
+        <div class="row ">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <div class="row mb-2">
+
+                                    <label for="input-text" class="col-sm-3 control-label">
+                                        CHỌN NGÀY</label>
+                                    <div class="col-sm-8">
+                                        <input type="date" class="form-control" id="input-text" style="background-color: #F2EBEB; border:#000000;" required/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <div class="row mb-4">
+
+                                    <label for="input-text" class="col-sm-3 control-label">
+                                        MÃ ĐƠN HÀNG</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="input-text" style="background-color: #F2EBEB; border:#000000" required/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <div class="row mb-2">
+                                    <label for="input-text"class="col-sm-3 control-label">
+                                        COMMENT</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="input-text" style="background-color: #F2EBEB; border:#000000" required/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <div class="row mb-2">
+
+                                    <label for="input-text" class="col-sm-3 control-label">
+                                        RATE </label>
+                                    <div class="col-sm-7">
+                                        <div id="rating1" class="star-rating" role="rating" data-rating="3">
+                                            <span class="star" data-value="1">&#9733;</span>
+                                            <span class="star" data-value="2">&#9733;</span>
+                                            <span class="star" data-value="3">&#9733;</span>
+                                            <span class="star" data-value="4">&#9733;</span>
+                                            <span class="star" data-value="5">&#9733;</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group last mb">
+                                <div class="col-sm-offset-3 col-sm-9">
+                                    <button type="submit" class="btn btn-success btn-sm" style="color: black;background-color: #FFDAD7; border:#000000;height: 35px;width: 150px">
+                                        XÁC NHẬN</button>
+
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

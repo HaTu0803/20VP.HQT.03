@@ -1,0 +1,135 @@
+{{#section 'css'}}
+    <link rel="stylesheet" href="/public/CSS/doitac.css">
+
+{{/section}}
+
+<head>
+    <style>
+        #hero{
+
+            background-color: #FFF8F8;
+
+        }
+
+
+        .container{
+            justify-content: center;
+            align-items: center;
+            top: 100px;
+        }
+        .form-control{
+            font-family: Arial, sans-serif;
+
+            background: #FCFCFC;
+            border: 1px solid #F3F3F3;
+            border-radius: 8px;
+
+            width: 100%;
+            height: 35px;
+
+
+
+            font-weight:300;
+            color: #6B6C6E;
+            font-size: 14px;
+            line-height: 15px;
+
+
+        }
+        #content{
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            line-height: 15px;
+        }
+        .btn-login {
+
+            border: 1px solid #FFDAD7;
+            border-radius: 8px;
+            letter-spacing: 0.05rem;
+            padding: 0.6rem 1rem;
+            color: black;
+            background-color: #FFDAD7;
+
+            font-style: normal;
+            font-weight: 400;
+
+        }
+
+        .btn-login:hover{
+            border: 1px solid #FF9F9F;
+            border-radius: 8px;
+            letter-spacing: 0.05rem;
+            padding: 0.6rem 1rem;
+            color: black;
+            background-color: #FF9F9F;
+
+            font-style: normal;
+            font-weight: 400;
+        }
+    </style>
+</head>
+<!--<div>-->
+<!--    <section id="hero_admin">-->
+<!--        <h2>Sign in</h2>-->
+<!--    </section>-->
+<!--    -->
+<!--    -->
+<!--</div>-->
+
+<!-- Section: Design Block -->
+<section id="hero">
+    <div class="container ">
+        <div class="row justify-content-end">
+            <div class="col-sm-9 col-md-7 col-lg-6 mx-auto">
+                <div class="card border-0 shadow rounded-3 my-5">
+                    <div class="card-body p-4 p-sm-5">
+                        <h3 class="card-title text-center mb-3 fw-light fs-5">Sign Up</h3>
+                        <h4 class="card-title text-center mb-5  fs-3" style="color: #333745; font-weight: lighter; font-size: 14px">Fill in your credentials and click on the the Sign up button
+                        </h4>
+                        <form method="POST">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3 ">
+                                        <label for="floatingFirstName" id="content"  class="font-weight-bold">First Name</label>
+                                        <input type="text" class="form-control" id="floatingFirstName" placeholder="First name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3 ">
+                                        <label for="floatingLastName" id="content"  class="font-weight-bold">Last Name</label>
+                                        <input type="text" class="form-control" id="floatingLastName" placeholder="Last name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-floating mb-3 ">
+                                <label for="floatingEmail" id="content"  class="font-weight-bold">Email address</label>
+                                <input type="email" class="form-control" id="floatingEmail" placeholder="name@example.com">
+                            </div>
+                            <div class="form-floating mb-3 ">
+                                <label for="floatingUsername" id="content"  class="font-weight-bold">Username</label>
+                                <input type="text" class="form-control" id="floatingUsername" placeholder="Username">
+                            </div>
+                            <div class="form-floating mb-3">
+                                <label for="floatingPassword" id="content"  class="font-weight-bold">Password</label>
+                                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                            </div>
+                            <div class="form-floating mb-4 ">
+                                <button class="btn btn-primary btn-login fw-bold w-100 font-weight-bold" type="submit">
+                                    Sign up
+                                </button>
+                            </div>
+
+                            <div class="text-center mb-6" style="font-size: 13px;" >
+                                <p>Already have an account? <a href="">Sign in</a></p>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+
+</script>

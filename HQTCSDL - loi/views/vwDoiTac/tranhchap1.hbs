@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            text-align: center;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+
+        .container {
+            padding-top: 100px;
+        }
+
+        h2 {
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        form {
+            background-color: #f2f2f2;
+            border-radius: 5px;
+            padding: 5px;
+            margin: 20px;
+        }
+
+        label {
+            display: inline-block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        label, select {
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #3e8e41;
+        }
+        /* The modal */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0, 0, 0, 0.4); /* Black background with opacity */
+        }
+
+        /* Modal content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto; /* 10% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%; /* Could be more or less, depending on screen size */
+        }
+
+        /* Close button */
+        .close {
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+
+    </style>
+</head>
+<body>
+<section class="container">
+    <h2>Thông tin sản phẩm</h2>
+    <!--    <table>-->
+    <!--        <thead>-->
+    <!--        <tr>-->
+    <!--            <th>Tên thực đơn đồ ăn</th>-->
+    <!--            <th>Số lượng món</th>-->
+    <!--        </tr>-->
+    <!--        </thead>-->
+    <!--        <tbody>-->
+        <!--        {{#each this.list}}-->
+    <!--            <tr>-->
+    <!--                <td class="menu-name">{{TENTDDA}}</td>-->
+
+    <!--                <td>{{SOLUONGMON}}</td>-->
+    <!--            </tr>-->
+        <!--        {{/each}}-->
+    <!--        </tbody>-->
+    <!--    </table>-->
+
+    <!--    <table id="menu-table" style="display:none">-->
+    <!--        <thead>-->
+    <!--        <tr class="monan">-->
+    <!--            <th>Tên món ăn</th>-->
+    <!--            <th>Miêu tả</th>-->
+    <!--            <th>Giá</th>-->
+    <!--        </tr>-->
+    <!--        </thead>-->
+    <!--        <tbody>-->
+        <!--        {{#each this.list1}}-->
+    <!--            <tr>-->
+    <!--                <td contenteditable="true">{{TENMA}}</td>-->
+    <!--                <td contenteditable="true">{{MIEUTA}}</td>-->
+    <!--                <td contenteditable="true">{{GIA}}</td>-->
+    <!--            </tr>-->
+        <!--        {{/each}}-->
+    <!--        </tbody>-->
+    <!--    </table>-->
+    <!--</section>-->
+
+    <!--</body>-->
+    <!--<script>-->
+    <!--    const menuName = document.querySelectorAll('.menu-name');-->
+    <!--    const menuTable = document.querySelector('#menu-table');-->
+
+    <!--    menuName.forEach((name) => {-->
+    <!--        name.addEventListener('click', () => {-->
+    <!--            menuTable.style.display = 'table';-->
+    <!--        });-->
+    <!--    });-->
+    <!--</script>-->
+
+    <label for="madtDropdown">Mã đối tác:</label>
+    <select id="madtDropdown">
+        <option value=""></option>
+        {{#each this.list}}
+            <option value="{{MADT}}">{{MADT}}</option>
+        {{/each}}
+    </select>
+    <label for="matddaDropdown">Mã Thực đơn:</label>
+    <select id="matddaDropdown">
+        <option value=""></option>
+        {{#each this.list1}}
+            <option value="{{MATD_DA}}">{{MATD_DA}}</option>
+        {{/each}}
+    </select>
+    <label for="mamaDropdown">Mã Món ăn:</label>
+    <select id="mamaDropdown">
+        <option value=""></option>
+        {{#each this.list2}}
+            <option value="{{MAMA}}">{{MAMA}}</option>
+        {{/each}}
+    </select>
+
+    <br>
+    <label for="tenMAInput">Tên món ăn:</label>
+    <input type="text" id="tenMAInput">
+    <br>
+    <label for="giaInput">Giá:</label>
+    <input type="number" id="giaInput">
+    <br>
+    <label for="mieutaInput">Miêu tả:</label>
+
+    <textarea id="mieutaInput" ></textarea>
+    <br>
+    <button id="updateButton">Cập nhật</button>
+    <button id="deleteButton">Xóa</button>
+    <button id="cancelButton">Hủy</button>
+    <button id="AddButton">Thêm</button>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Thêm món ăn</h2>
+            <form>
+                <label for="maMAInput1">Mã món ăn:</label>
+                <input type="text" id="maMAInput1">
+                <br>
+                <label for="tenMAInput1">Tên món ăn:</label>
+                <input type="text" id="tenMAInput1">
+                <br>
+                <label for="giaInput1">Giá:</label>
+                <input type="number" id="giaInput1">
+                <br>
+                <label for="mieutaInput1">Miêu tả:</label>
+                <textarea id="mieutaInput1"></textarea>
+                <br>
+                <button id="addButton1">Thêm</button>
+                <button id="cancelButton1">Hủy</button>
+            </form>
+        </div>
+    </div>
+
+
+</section>
+/
+</body>
+<script>
+    // get references to the dropdowns
+    const madtDropdown = document.getElementById('madtDropdown');
+    const matddaDropdown = document.getElementById('matddaDropdown');
+    const mamaDropdown = document.getElementById('mamaDropdown');
+    const giaInput = document.getElementById('giaInput');
+    const mieutaInput = document.getElementById('mieutaInput');
+    // const tenTDInput = document.getElementById('tenTDInput');
+    const tenMAInput = document.getElementById('tenMAInput');
+    // const tenDTInput = document.getElementById('tenDTInput');
+    const AddlButton = document.getElementById('AddlButton');
+    const addButton1 = document.getElementById('addButton1');
+    const cancelButton1 = document.getElementById('cancelButton1');
+
+    const giaInput1 = document.getElementById('giaInput1');
+    const mieutaInput1 = document.getElementById('mieutaInput1');
+    // const tenTDInput = document.getElementById('tenTDInput');
+    const tenMAInput1 = document.getElementById('tenMAInput1');
+    // listen to the change event on the Mã đối tác dropdown
+    madtDropdown.addEventListener('change', async () => {
+        // get the selected Mã đối tác value
+        const selectedMadt = madtDropdown.value;
+
+        // make an AJAX request to the server to get the corresponding Mã Thực đơn data
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `/api/matdda?madt=${selectedMadt}`);
+        xhr.onload = () => {
+            if (xhr.status === 200) {
+                // parse the response data and update the Mã Thực đơn dropdown options
+                const matddaData = JSON.parse(xhr.responseText);
+                matddaDropdown.innerHTML = '';
+                matddaDropdown.appendChild(document.createElement('option'));
+                matddaData.forEach((item) => {
+                    const option = document.createElement('option');
+                    option.value = item.MATD_DA;
+                    option.textContent = item.MATD_DA;
+                    matddaDropdown.appendChild(option);
+                });
+                // tenDTInput.value = matddaData[0].TENQUAN;
+                // tenTDInput.value = matddaData[0].TENTDDA;
+
+
+            } else {
+                // handle errors
+                console.error('Error:', xhr.statusText);
+            }
+        };
+        xhr.onerror = () => {
+            console.error('Error:', xhr.statusText);
+        };
+        xhr.send();
+        // try {
+        //     const response = await fetch(`/api/matdda?madt=${selectedMadt}`);
+        //     const matddaData = await response.json();
+        //     // update the price and description input fields
+        //
+        //     tenTDInput.value = matddaData[0].TENTDDA;
+        // } catch (error) {
+        //     // handle errors
+        //     console.error('Error:', error);
+        // }
+    });
+    matddaDropdown.addEventListener('change', async () => {
+        // get the selected Mã đối tác value
+        const selectedMatdda = matddaDropdown.value;
+
+        // make an AJAX request to the server to get the corresponding Mã Thực đơn data
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `/api/mama?matdda=${selectedMatdda}`);
+        xhr.onload = () => {
+            if (xhr.status === 200) {
+                // parse the response data and update the Mã Thực đơn dropdown options
+                const mamaData = JSON.parse(xhr.responseText);
+                mamaDropdown.innerHTML = '';
+                mamaDropdown.appendChild(document.createElement('option'));
+                mamaData.forEach((item) => {
+                    const option = document.createElement('option');
+                    option.value = item.MAMA;
+                    option.textContent = item.MAMA;
+                    mamaDropdown.appendChild(option);
+                });
+                // tenTDInput.value = mamaData[0].TENTDDA;
+
+                // tenMAInput.value = mamaData[0].TENMA;
+
+            } else {
+                // handle errors
+                console.error('Error:', xhr.statusText);
+            }
+        };
+        xhr.onerror = () => {
+            console.error('Error:', xhr.statusText);
+        };
+        xhr.send();
+        // try {
+        //     const response = await fetch(`/api/mama?matdda=${selectedMatdda}`);
+        //     const mamaData = await response.json();
+        //     // update the price and description input fields
+        //     tenTDInput.value = mamaData[0].TENTDDA;
+        //
+        //     // tenMAInput.value = mamaData[0].TENMA;
+        // } catch (error) {
+        //     // handle errors
+        //     console.error('Error:', error);
+        // }
+    });
+    mamaDropdown.addEventListener('change', async () => {
+        // get the selected Mã món ăn value
+        const selectedMama = mamaDropdown.value;
+        const selectedMatdda = matddaDropdown.value;
+
+        // make an AJAX request to the server to get the corresponding Món ăn data
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `/api/monan?mama=${selectedMama}&matd=${selectedMatdda}`);
+        xhr.onload = () => {
+            if (xhr.status === 200) {
+                // parse the response data and update the price and description input fields
+                const monanData = JSON.parse(xhr.responseText);
+                giaInput.value = monanData[0].GIA;
+                mieutaInput.value = monanData[0].MIEUTA;
+                tenMAInput.value = monanData[0].TENMA;
+
+            } else {
+                // handle errors
+                console.error('Error:', xhr.statusText);
+            }
+        };
+        xhr.onerror = () => {
+            console.error('Error:', xhr.statusText);
+        };
+        xhr.send();
+
+        // // get the corresponding Món ăn data from the server using async/await
+        // try {
+        //     const response = await fetch(`/api/monan?mama=${selectedMama}`);
+        //     const monanData = await response.json();
+        //     // update the price and description input fields
+        //     giaInput.value = monanData[0].GIA;
+        //     mieutaInput.value = monanData[0].MIEUTA;
+        //     tenMAInput.value = monanData[0].TENMA;
+        // } catch (error) {
+        //     // handle errors
+        //     console.error('Error:', error);
+        // }
+    });
+
+
+
+</script>
+<script>
+    document.getElementById("AddButton").addEventListener("click", function() {
+        document.getElementById("myModal").style.display = "block";
+    });
+    document.getElementById("addButton1").addEventListener("click", async function () {
+        try {
+            // const result = await insertThucDon(madt, matd, mama, tenma, gia);
+            const selecteMadt = madtDropdown.value;
+            const selectedMatdda = matddaDropdown.value;
+
+            var mamalement = document.getElementById("maMAInput1");
+            var mama = mamalement.value;
+            var tenmalement = document.getElementById("tenMAInput1");
+            var tenma = tenmalement.value;
+            var giamalement = document.getElementById("giaInput1");
+            var giama = giamalement.value;
+            var mieutamalement = document.getElementById("mieutaInput1");
+            var mieutama = mieutamalement.value;
+
+            // make an AJAX request to the server to get the corresponding Món ăn data
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `/api/themmonan?matd=${selectedMatdda}&mama=${mama}&tenma=${tenma}&gia=${giama}&mieuta=${mieutama}`);
+            xhr.onload = () => {
+                if (xhr.status === 200) {
+                    // parse the response data and update the price and description input fields
+
+
+                } else {
+                    // handle errors
+                    console.error('Error:', xhr.statusText);
+                }
+            };
+            xhr.onerror = () => {
+                console.error('Error:', xhr.statusText);
+            };
+            xhr.send();
+        } catch (err) {
+            console.log(err);
+            // handle error
+        }
+        document.getElementById("myModal").style.display = "none";
+    });
+
+    document.getElementById("cancelButton1").addEventListener("click", function() {
+        document.getElementById("myModal").style.display = "none";
+    });
+
+    // document.getElementById("updateButton").addEventListener("click", function() {
+    //     try {
+    //         // const result = await insertThucDon(madt, matd, mama, tenma, gia);
+    //         const selecteMadt = madtDropdown.value;
+    //         const selectedMatdda = matddaDropdown.value;
+    //
+    //         var mama = mamaDropdown.value
+    //         var tenmalement = document.getElementById("tenMAInput");
+    //         var tenma = tenmalement.value;
+    //         var giamalement = document.getElementById("giaInput");
+    //         var giama = giamalement.value;
+    //
+    //         // make an AJAX request to the server to get the corresponding Món ăn data
+    //         const xhr = new XMLHttpRequest();
+    //         xhr.open('GET', `/api/capnhatmonan?matd=${selectedMatdda}&mama=${mama}&tenma=${tenma}&gia=${giama}`);
+    //         xhr.onload = () => {
+    //             if (xhr.status === 200) {
+    //                 // parse the response data and update the price and description input fields
+    //
+    //
+    //             } else {
+    //                 // handle errors
+    //                 console.error('Error:', xhr.statusText);
+    //             }
+    //         };
+    //         xhr.onerror = () => {
+    //             console.error('Error:', xhr.statusText);
+    //         };
+    //         xhr.send();
+    //     } catch (err) {
+    //         console.log(err);
+    //         // ha
+    //     }
+    // });
+
+    document.getElementById("updateButton").addEventListener("click", function() {
+        try {
+            // const result = await insertThucDon(madt, matd, mama, tenma, gia);
+            const selecteMadt = madtDropdown.value;
+            const selectedMatdda = matddaDropdown.value;
+
+            var mama = mamaDropdown.value
+
+            var giamalement = document.getElementById("giaInput");
+            var giama = giamalement.value;
+
+            // make an AJAX request to the server to get the corresponding Món ăn data
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `/api/capnhatgia?mama=${mama}&matd=${selectedMatdda}&gia=${giama}`);
+            xhr.onload = () => {
+                if (xhr.status === 200) {
+                    // parse the response data and update the price and description input fields
+
+
+                } else {
+                    // handle errors
+                    console.error('Error:', xhr.statusText);
+                }
+            };
+            xhr.onerror = () => {
+                console.error('Error:', xhr.statusText);
+            };
+            xhr.send();
+        } catch (err) {
+            console.log(err);
+            // ha
+        }
+    });
+
+    document.getElementById("cancelButton").addEventListener("click", function() {
+        try {
+            // const result = await insertThucDon(madt, matd, mama, tenma, gia);
+
+            const selectedMatdda = matddaDropdown.value;
+
+            const mama = mamaDropdown.value
+
+            var giamalement = document.getElementById("giaInput");
+            var giama = giamalement.value;
+
+            // make an AJAX request to the server to get the corresponding Món ăn data
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `/api/huycapnhatgia?mama=${mama}&matd=${selectedMatdda}&gia=${giama}`);
+            xhr.onload = () => {
+                if (xhr.status === 200) {
+                    // parse the response data and update the price and description input fields
+
+
+                } else {
+                    // handle errors
+                    console.error('Error:', xhr.statusText);
+                }
+            };
+            xhr.onerror = () => {
+                console.error('Error:', xhr.statusText);
+            };
+            xhr.send();
+        } catch (err) {
+            console.log(err);
+            // ha
+        }
+    });
+
+</script>
+</html>
