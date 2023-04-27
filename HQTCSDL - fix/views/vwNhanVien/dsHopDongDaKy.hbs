@@ -1,0 +1,214 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Danh sách nhân viên</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            text-align: center;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .add-btn, .edit-btn, .delete-btn {
+            background-color: #FFC7C7;
+            border: none;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 40px 40px;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100px; /* Thiết lập chiều rộng là 100px */
+
+
+        }
+
+        .add-btn:hover, .edit-btn:hover, .delete-btn:hover {
+            background-color: #FF9F9F;
+        }
+
+        .container {
+            padding-top: 100px;
+        }
+
+        h2 {
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal {
+            display: none; /* Ẩn cửa sổ pop-up ban đầu */
+            position: fixed; /* Tạo cửa sổ pop-up cố định */
+            z-index: 1; /* Đặt độ sâu của cửa sổ pop-up */
+            left: 0;
+            top: 0;
+            width: 100%; /* Đặt chiều rộng của cửa sổ pop-up */
+            height: 100%; /* Đặt chiều cao của cửa sổ pop-up */
+            overflow: auto; /* Cho phép scroll nội dung trong cửa sổ pop-up */
+            background-color: rgba(0,0,0,0.4); /* Tạo hiệu ứng mờ phía sau cửa sổ pop-up */
+        }
+
+        .modal-content {
+            background-color: #fefefe; /* Đặt màu nền cho nội dung của cửa sổ pop-up */
+            margin: 10% auto; /* Đặt khoảng cách giữa cửa sổ pop-up và trang web */
+            padding: 20px;
+            border: 1px solid #888; /* Đặt đường viền cho cửa sổ pop-up */
+            width: 30%; /* Đặt chiều rộng của nội dung trong cửa sổ pop-up */
+        }
+
+        .close {
+            color: #aaaaaa; /* Đặt màu chữ cho nút đóng cửa sổ pop-up */
+            float: right; /* Đặt vị trí của nút đóng cửa sổ pop-up */
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover, .close:focus {
+            color: #000; /* Đổi màu chữ khi rê chuột vào hoặc focus vào nút đóng cửa sổ pop-up */
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #combo-button{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+        .submit{
+            display: flex;
+
+            background-color: #FFC7C7;
+            justify-content: center;
+            align-items: center;
+
+        }
+        .submit:hover{
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+            background-color: #FF9F9F;
+
+        }
+
+    </style>
+</head>
+<body>
+<section class="container">
+    <h2>DANH SÁCH HỢP ĐỒNG</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Mã hợp đồng</th>
+            <th>Tên ngân hàng</th>
+            <th>Địa chỉ NH</th>
+            <th>STK</th>
+            <th>Mã đơn đăng ký</th>
+            <th>Tên cửa hàng</th>
+            <th>Mã số thuế</th>
+            <th>Thời gian hiệu lực</th>
+            <th>Ngày lập</th>
+            <th>Phần trăm hoa hồng</th>
+            <th>Số chi nhánh DK</th>
+            <th>Người đại diện</th>
+            <th>Trạng thái</th>
+            <th>Thành phố</th>
+            <th>Quận</th>
+            <th>Địa chỉ</th>
+            <th>Loại ẩm thực</th>
+            <th>Số điện thoại</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each this.list}}
+
+            <tr>
+
+                <td>{{MAHD}}</td>
+                <td>{{TENNH}}</td>
+                <td>{{DIACHINH}}</td>
+                <td>{{STK}}</td>
+                <td>{{MADDK}}</td>
+                <td>{{TENCUAHANG}}</td>
+                <td>{{MASOTHUE}}</td>
+                <td>{{THOIGIANHIEULUC}}</td>
+                <td>{{NGAYLAP}}</td>
+                <td>{{PHANTRAMHOAHONG}}</td>
+                <td>{{SOCHINHANHDK}}</td>
+                <td>{{NGUOIDADIEN}}</td>
+                <td>{{TRANGTHAI}}</td>
+                <td>{{THANHPHO}}</td>
+                <td>{{QUAN}}</td>
+                <td>{{DIACHI}}</td>
+                <td>{{LOAIAMTHUC}}</td>
+                <td>{{SDT}}</td>
+            </tr>
+        {{/each}}
+        </tbody>
+
+
+    </table>
+    <div id="combo-button">
+        <button class="add-btn" onclick="openModal()">Sửa</button>
+
+    </div>
+</section>
+
+
+<!--    <div id="myModal" class="modal">-->
+
+<!--        &lt;!&ndash; Modal content &ndash;&gt;-->
+<!--        <div class="modal-content">-->
+<!--            <span class="close" onclick="closeModal()">&times;</span>-->
+<!--            <form action="/themNhanVien" method="POST">-->
+<!--                <label for="maNV">Mã NV:</label>-->
+<!--                <input type="text" id="maNV" name="maNV"><br>-->
+
+<!--                <label for="tenNV">Tên NV:</label>-->
+<!--                <input type="text" id="tenNV" name="tenNV"><br>-->
+
+<!--                <input class="submit" type="submit" value="Lưu">-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+
+<!--</body>-->
+<!--<script>-->
+<!--    // Get the modal-->
+<!--    var modal = document.getElementById("myModal");-->
+
+<!--    // Get the button that opens the modal-->
+<!--    var btn = document.getElementsByTagName("button")[0];-->
+
+<!--    // Get the <span> element that closes the modal-->
+<!--    var span = document.getElementsByClassName("close")[0];-->
+
+<!--    // When the user clicks the button, open the modal-->
+<!--    function openModal() {-->
+<!--        modal.style.display = "block";-->
+<!--    }-->
+
+<!--    // When the user clicks on <span> (x), close the modal-->
+<!--    function closeModal() {-->
+<!--        modal.style.display = "none";-->
+<!--    }-->
+<!--</script>-->
+</body>
+</html>

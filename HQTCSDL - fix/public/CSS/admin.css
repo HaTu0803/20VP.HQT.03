@@ -1,0 +1,58 @@
+
+#header{
+
+    display: flex; /*giúp sử dụng Flexbox để căn giữa phần tử.*/
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 60px;
+    background-color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* thay đổi giá trị box-shadow để có đổ bóng */
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    box-sizing: border-box;
+    z-index: 999;
+    opacity: 1; /* giá trị mặc định của opacity là 1 */
+}
+#header.fade {
+    opacity: 0.5; /* giá trị opacity sẽ thay đổi khi có class "fade" */
+}
+
+#navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#navbar li{
+    list-style: none;
+    padding: 0 20px;
+    position: relative;
+    text-align: left;
+}
+
+#navbar li a{
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a1a;
+    transition: 0.5s ease;
+}
+#navbar li a:hover,
+#navbar li a.active{
+    color: #BF2200;
+}
+
+#navbar li a.active::after,
+#navbar li a:hover::after{
+    content: "";
+    width: 40%;
+    height: 2px;
+    background: #BF2200;
+    position: absolute;
+    bottom: -4px;
+    left: 20px;
+}

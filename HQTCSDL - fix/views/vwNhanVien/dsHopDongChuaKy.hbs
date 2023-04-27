@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Danh sách nhân viên</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            text-align: center;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .add-btn, .edit-btn, .delete-btn {
+            background-color: #FFC7C7;
+            border: none;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 40px 40px;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100px; /* Thiết lập chiều rộng là 100px */
+
+
+        }
+
+        .add-btn:hover, .edit-btn:hover, .delete-btn:hover {
+            background-color: #FF9F9F;
+        }
+
+        .container {
+            padding-top: 100px;
+        }
+
+        h2 {
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal {
+            display: none; /* Ẩn cửa sổ pop-up ban đầu */
+            position: fixed; /* Tạo cửa sổ pop-up cố định */
+            z-index: 1; /* Đặt độ sâu của cửa sổ pop-up */
+            left: 0;
+            top: 0;
+            width: 100%; /* Đặt chiều rộng của cửa sổ pop-up */
+            height: 100%; /* Đặt chiều cao của cửa sổ pop-up */
+            overflow: auto; /* Cho phép scroll nội dung trong cửa sổ pop-up */
+            background-color: rgba(0, 0, 0, 0.4); /* Tạo hiệu ứng mờ phía sau cửa sổ pop-up */
+        }
+
+        .modal-content {
+            background-color: #fefefe; /* Đặt màu nền cho nội dung của cửa sổ pop-up */
+            margin: 10% auto; /* Đặt khoảng cách giữa cửa sổ pop-up và trang web */
+            padding: 20px;
+            border: 1px solid #888; /* Đặt đường viền cho cửa sổ pop-up */
+            width: 30%; /* Đặt chiều rộng của nội dung trong cửa sổ pop-up */
+        }
+
+        .close {
+            color: #aaaaaa; /* Đặt màu chữ cho nút đóng cửa sổ pop-up */
+            float: right; /* Đặt vị trí của nút đóng cửa sổ pop-up */
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover, .close:focus {
+            color: #000; /* Đổi màu chữ khi rê chuột vào hoặc focus vào nút đóng cửa sổ pop-up */
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #combo-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .submit {
+            display: flex;
+
+            background-color: #FFC7C7;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .submit:hover {
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+            background-color: #FF9F9F;
+
+        }
+
+    </style>
+</head>
+<body>
+<section class="container">
+    <h2>HỢP ĐỒNG CHỜ DUYỆT</h2>
+    <label for="manvDropdown">Mã Nhân Viên :</label>
+    <select id="manvDropdown">
+        <option value="NV_01">NV_01</option>
+        <option value="NV_02">NV_02</option>
+        <option value="NV_03">NV_03</option>
+    </select>
+    <br>
+    <label for="maddkDropdown">Mã đơn đăng ký:</label>
+    <select id="maddkDropdown">
+        <option value=""></option>
+        {{#each this.list}}
+            <option value="{{MADDK}}">{{MADDK}}</option>
+        {{/each}}
+    </select>
+    <table>
+        <thead>
+        <tr>
+            <th>Mã đơn đăng ký</th>
+            <th>Mã nhân viên</th>
+            <th>Tên ngân hàng</th>
+            <th>Địa chỉ NH</th>
+
+            <th>STK</th>
+            <th>Email</th>
+            <th>Tên cửa hàng</th>
+            <th>Thành phố</th>
+            <th>Quận</th>
+            <th>Số chi nhánh</th>
+            <th>SL Đơn hàng mỗi ngày</th>
+            <th>Loại ẩm thực</th>
+
+            <th>Địa chỉ</th>
+            <th>Số điện thoại</th>
+
+            <th>Người đại diện</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {{#each this.list}}
+            <tr>
+                <td>{{MADDK}}</td>
+                <td>{{MANV}}</td>
+
+                <!--                <td>{{MAHD}}</td>-->
+                <td>{{TENNH}}</td>
+                <td>{{DIACHINH}}</td>
+                <td>{{STK}}</td>
+                <td>{{EMAIL}}</td>
+                <td>{{TENQUAN}}</td>
+                <td>{{THANHPHO}}</td>
+                <td>{{QUAN}}</td>
+                <td>{{SOCHINHANH}}</td>
+                <td>{{SLDONHANGMN}}</td>
+                <td>{{LOAIAMTHUC}}</td>
+                <td>{{DIACHI}}</td>
+
+
+                <td>{{SDT}}</td>
+                <td>{{NGUOIDD}}</td>
+
+            </tr>
+        {{/each}}
+        </tbody>
+
+
+    </table>
+    <div id="combo-button">
+        <button id="add-btn"  class="add-btn" onclick="openModal()">Duyệt</button>
+
+    </div>
+</section>
+</body>
+<script>
+    const dropdown = document.getElementById("maddkDropdown");
+    const tableBody = document.querySelector("tbody");
+
+    // Attach a change event listener to the dropdown
+    dropdown.addEventListener("change", function () {
+        // Get the selected value from the dropdown
+        const selectedValue = dropdown.value;
+        if (selectedValue === "") {
+            fetch(`/api/allddky`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Clear the existing rows in the table body
+                        tableBody.innerHTML = "";
+
+                        // Loop through the new data and append rows to the table body
+                        data.forEach(row => {
+                            const tr = document.createElement("tr");
+                            tr.innerHTML = `
+          <td>${row.MADDK}</td>
+          <td>${row.MANV}</td>
+          <td>${row.TENNH}</td>
+          <td>${row.DIACHINH}</td>
+          <td>${row.STK}</td>
+          <td>${row.EMAIL}</td>
+          <td>${row.TENQUAN}</td>
+          <td>${row.THANHPHO}</td>
+          <td>${row.QUAN}</td>
+          <td>${row.SOCHINHANH}</td>
+          <td>${row.SLDONHANGMN}</td>
+          <td>${row.LOAIAMTHUC}</td>
+          <td>${row.DIACHI}</td>
+          <td>${row.NGUOIDD}</td>
+          <td>${row.SDT}</td>
+        `;
+                            tableBody.appendChild(tr);
+                        });
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+        }
+        else {
+            fetch(`/api/ddky?maddk=${selectedValue}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Clear the existing rows in the table body
+                        tableBody.innerHTML = "";
+
+                        // Loop through the new data and append rows to the table body
+                        data.forEach(row => {
+                            const tr = document.createElement("tr");
+                            tr.innerHTML = `
+          <td>${row.MADDK}</td>
+          <td>${row.MANV}</td>
+          <td>${row.TENNH}</td>
+          <td>${row.DIACHINH}</td>
+          <td>${row.STK}</td>
+          <td>${row.EMAIL}</td>
+          <td>${row.TENQUAN}</td>
+          <td>${row.THANHPHO}</td>
+          <td>${row.QUAN}</td>
+          <td>${row.SOCHINHANH}</td>
+          <td>${row.SLDONHANGMN}</td>
+          <td>${row.LOAIAMTHUC}</td>
+          <td>${row.DIACHI}</td>
+          <td>${row.NGUOIDD}</td>
+          <td>${row.SDT}</td>
+        `;
+                            tableBody.appendChild(tr);
+                        });
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+        }
+        // Send an AJAX request to the server to fetch the new data
+
+    });
+</script>
+<script>
+    const addButton = document.querySelector(".add-btn");
+
+    addButton.addEventListener("click", function() {
+        // Get the selected value from the dropdown.
+        try {
+            const maddk = document.getElementById("maddkDropdown").value; // Get the selected driver code
+            const manv = document.getElementById("manvDropdown").value; // Get the selected driver code
+
+            // const matx = res.locals.authUser.username;
+
+            // make an AJAX request to the server to get the corresponding Món ăn data
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `/api/nhanvienduyetdondk?maddk=${maddk}&manv=${manv}`);
+            xhr.onload = () => {
+                if (xhr.status === 200) {
+                    // parse the response data and update the price and description input fields
+                } else {
+                    // handle errors
+                    console.error('Error:', xhr.statusText);
+                }
+            };
+            xhr.onerror = () => {
+                console.error('Error:', xhr.statusText);
+            };
+            xhr.send();
+        } catch (err) {
+            console.log(err);
+            // handle error
+        }
+    });
+</script>
+</html>

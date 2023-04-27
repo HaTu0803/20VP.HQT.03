@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title >Xem doanh thu</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        #hero {
+            padding-top: 100px;
+        }
+        h2 {
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+<section id="hero">
+    <h2>Quản lý doanh thu cửa hàng</h2>
+
+    <div class="container">
+        <div class="filters">
+            <div class="filter">
+                <label for="branch">Chi nhánh:</label>
+                <select id="branch">
+                    <option value="all">Tất cả</option>
+                    <option value="Chi nhánh 1">Chi nhánh 1</option>
+                    <option value="Chi nhánh 2">Chi nhánh 2</option>
+                    <option value="Chi nhánh 3">Chi nhánh 3</option>
+                </select>
+            </div>
+            <form>
+                <label for="startDate">Ngày bắt đầu:</label>
+                <input type="date" id="startDate" name="startDate"><br><br>
+                <label for="endDate">Ngày kết thúc:</label>
+                <input type="date" id="endDate" name="endDate"><br><br>
+                <button type="button" id="btnViewRevenue">Xem doanh thu</button>
+            </form>
+            <br>
+            <table id="revenueTable">
+                <tr>
+                    <th>Chi nhánh</th>
+                    <th>Ngày bắt đầu</th>
+                    <th>Ngày kết thúc</th>
+                    <th>Doanh thu chi nhánh</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>
+<!-- <script src="script.js"></script> -->
+</body>
+
+<script>
+    document.getElementById("btnViewRevenue").addEventListener("click", function() {
+        // Lấy giá trị của ngày bắt đầu và ngày kết thúc từ form
+        var startDate = document.getElementById("startDate").value;
+        var endDate = document.getElementById("endDate").value;
+
+        // Lấy giá trị của chi nhánh từ form
+        var branch = document.getElementById("branch").value;
+        // Tính tổng doanh thu của chi nhánh trong khoảng thời gian đó
+        var revenue = calculateRevenue(branch, startDate, endDate);
+
+        // Hiển thị kết quả trên bảng
+        displayRevenue(branch, startDate, endDate, revenue);
+    });
+
+    function calculateRevenue(branch, startDate, endDate) {
+        // Giả sử doanh thu của chi nhánh đã được lưu trữ trong một mảng revenues,
+// với mỗi phần tử là một đối tượng {branch: chi nhánh, date: ngày, revenue: doanh thu}
+        var revenues = [
+            {branch: "Chi nhánh 1", date: "2023-01-29", revenue: 1000000},
+            {branch: "Chi nhánh 1", date: "2023-01-30", revenue: 2000000},
+            {branch: "Chi nhánh 1", date: "2023-01-31", revenue: 1500000},
+            {branch: "Chi nhánh 1", date: "2023-02-01", revenue: 1300000},
+            {branch: "Chi nhánh 1", date: "2023-02-02", revenue: 2200000},
+            {branch: "Chi nhánh 1", date: "2023-02-03", revenue: 1900000},
+            {branch: "Chi nhánh 1", date: "2023-02-04", revenue: 2300000},
+            {branch: "Chi nhánh 1", date: "2023-02-05", revenue: 2000000},
+            {branch: "Chi nhánh 2", date: "2023-01-29", revenue: 800000},
+            {branch: "Chi nhánh 2", date: "2023-01-30", revenue: 1500000},
+            {branch: "Chi nhánh 2", date: "2023-01-31", revenue: 1200000},
+            {branch: "Chi nhánh 2", date: "2023-02-01", revenue: 1200000},
+            {branch: "Chi nhánh 2", date: "2023-02-02", revenue: 1500000},
+            {branch: "Chi nhánh 2", date: "2023-02-03", revenue: 1400000},
+            {branch: "Chi nhánh 2", date: "2023-02-04", revenue: 2800000},
+            {branch: "Chi nhánh 2", date: "2023-02-05", revenue: 1700000},
+            {branch: "Chi nhánh 3", date: "2023-01-29", revenue: 1200000},
+            {branch: "Chi nhánh 3", date: "2023-01-30", revenue: 1800000},
+            {branch: "Chi nhánh 3", date: "2023-01-31", revenue: 1400000},
+            {branch: "Chi nhánh 3", date: "2023-02-01", revenue: 2000000},
+            {branch: "Chi nhánh 3", date: "2023-02-02", revenue: 2200000},
+            {branch: "Chi nhánh 3", date: "2023-02-03", revenue: 1700000},
+            {branch: "Chi nhánh 3", date: "2023-02-04", revenue: 2500000},
+        ];
+
+
+
+// Tính tổng doanh thu trong khoảng thời gian từ ngày bắt đầu đến ngày kết thúc
+        var totalRevenue = 0;
+        for (var i = 0; i < revenues.length; i++) {
+            var revenue = revenues[i];
+            if (revenue.branch === branch && revenue.date >= startDate && revenue.date <= endDate) {
+                totalRevenue += revenue.revenue;
+            }
+        }
+
+        return totalRevenue;
+
+    }
+    function displayRevenue(branch,startDate, endDate, revenue) {
+        // Tạo một hàng mới trên bảng và thêm vào bảng
+        var table = document.getElementById("revenueTable");
+        var row = table.insertRow(-1);
+        var branchCell = row.insertCell(0);
+        var startDateCell = row.insertCell(1);
+        var endDateCell = row.insertCell(2);
+        var revenueCell = row.insertCell(3);
+        branchCell.innerHTML = branch;
+        startDateCell.innerHTML = startDate;
+        endDateCell.innerHTML = endDate;
+        revenueCell.innerHTML = revenue;
+    }
+
+
+</script>
+</html>
